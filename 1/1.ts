@@ -7,16 +7,24 @@ function parseInput(input: string): number[][] {
     });
 }
 
-function getMostGreedyElf(caloryCounts: number[][]): number {
+function getMostGreedyElf(
+  caloryCounts: number[][],
+  ranking: number = 0
+): number {
   const sums = caloryCounts.map((elfFoods) =>
     elfFoods.reduce((sum, current) => sum + current)
   );
 
-  return sums.sort((a, b) => b - a)[0];
+  return sums.sort((a, b) => b - a)[ranking];
 }
 
 const parsedInput = parseInput(await Deno.readTextFile("./input.txt"));
 
-const answer = getMostGreedyElf(parsedInput);
+const partOne = getMostGreedyElf(parsedInput);
 
-console.log(answer);
+const partTwo = [0, 1, 2]
+  .map((rank) => getMostGreedyElf(parsedInput, rank))
+  .reduce((sum, current) => sum + current);
+
+console.log(partOne);
+console.log(partTwo);
